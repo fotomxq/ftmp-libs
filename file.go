@@ -23,9 +23,12 @@ func (File *FileOperate) CreateDir(src string) (bool,error) {
 }
 
 //创建文件
-func (File *FileOperate) CreateFile(src string) (bool,error){
-	bool,err := os.Create(src)
-	return bool,err
+func (File *FileOperate) CreateFile(src string) bool{
+	_,err := os.Create(src)
+	if err != nil{
+		return true
+	}
+	return false
 }
 
 //读取文件
@@ -57,7 +60,10 @@ func (File *FileOperate) WriteFileAppend(src string, content []byte) (bool,error
 		writeBool,writeErr := File.WriteFile(src, content)
 		return writeBool,writeErr
 	}
-	var fileContent []byte = File.ReadFile(src)
+	fileContent, fcErr := File.ReadFile(src)
+	if fcErr != nil{
+		return false,fcErr
+	}
 	s := [][]byte{
 		fileContent,
 		content,

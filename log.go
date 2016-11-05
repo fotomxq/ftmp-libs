@@ -10,13 +10,13 @@ import(
 //日志类结构
 type Log struct {
 	//新日志发送方式
-	// ? - 向控制台发送信息 ; 1 - 保存日志信息 ; 2 - 全部发送
+	// 0 - 全部发送 ; 1 - 仅保存到日志 ; 2 - 仅发送控制台
 	newLogType int
 	//日志数据保存的路径目录
 	//如果不存在则自动建立为“log”目录下
 	dirSrc string
 	//日志保存结构
-	// ? - 年月/日.log ; 1 - 年/月/日.log ; 2 - 年月日.log
+	// 0 - 年月/日.log ; 1 - 年/月/日.log ; 2 - 年月日.log
 	dirType int
 	//file模块调用
 	file FileOperate
@@ -55,10 +55,10 @@ func (log *Log) AddLog(content string) {
 			break
 		case 2:
 			log.postFmtLog(content)
-			log.postFileLog(content)
 			break
 		default:
 			log.postFmtLog(content)
+			log.postFileLog(content)
 			break
 	}
 }
@@ -105,7 +105,8 @@ func (log *Log) postFileLog(content string){
 			break
 
 	}
-	if log.file.CreateDir(dir) == false {
+	createDirBool, _ := log.file.CreateDir(dir)
+	if createDirBool == false {
 		log.postFmtLog("ERROR : Cannot create log dir.")
 		return
 	}
@@ -114,7 +115,11 @@ func (log *Log) postFileLog(content string){
 	var logContent string = nowTime + " " + content + "\n"
 	logContentByte := []byte(logContent)
 	//向日志文件添加日志
-	var _ bool = log.file.WriteFileAppend(logSrc,logContentByte)
+	_,writeErr := log.file.WriteFileAppend(logSrc,logContentByte)
+	if writeErr != nil{
+		fmt.Println(writeErr.Error())
+	}
+	return
 }
 
 //获取当前系统日期
