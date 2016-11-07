@@ -16,32 +16,31 @@ type SimpleHttp struct{
 }
 
 //设定URL地址
-func (this *SimpleHttp) SetSendUrl(sendUrl string){
-	this.sendUrl = sendUrl
+func (simpleHttp *SimpleHttp) SetSendUrl(sendUrl string){
+	simpleHttp.sendUrl = sendUrl
 }
 
 //设定参数
-func (this *SimpleHttp) SetSendParams(sendParams map[string][]string) {
-	this.sendParams = sendParams
+func (simpleHttp *SimpleHttp) SetSendParams(sendParams map[string][]string) {
+	simpleHttp.sendParams = sendParams
 }
 
 //设定是否启动代理
-func (this *SimpleHttp) SetProxy(setOn bool){
-	this.proxyOn = setOn
+func (simpleHttp *SimpleHttp) SetProxy(setOn bool){
+	simpleHttp.proxyOn = setOn
 }
-
-
 
 //Get数据
 // url - 网络地址 ; param - 参数 (url.value)
-func (this *SimpleHttp) Get() (res []byte, err error){
+func (simpleHttp *SimpleHttp) Get() ([]byte,error){
 	var Url *url.URL
-	Url,err = url.Parse(this.sendUrl)
+	var err error
+	Url,err = url.Parse(simpleHttp.sendUrl)
 	if err != nil{
 		return nil, err
 	}
 	//转换格式
-	var urlParams url.Values = this.sendParams
+	var urlParams url.Values = simpleHttp.sendParams
 	//如果参数中有中文参数,这个方法会进行URLEncode
 	Url.RawQuery = urlParams.Encode()
 	resp,err := http.Get(Url.String())
@@ -53,9 +52,9 @@ func (this *SimpleHttp) Get() (res []byte, err error){
 }
 
 //post数据
-func (this *SimpleHttp) Post() (res []byte, err error){
-	var urlParams url.Values = this.sendParams
-	resp,err := http.PostForm(this.sendUrl, urlParams)
+func (simpleHttp *SimpleHttp) Post() ([]byte,error){
+	var urlParams url.Values = simpleHttp.sendParams
+	resp,err := http.PostForm(simpleHttp.sendUrl, urlParams)
 	if err != nil{
 		return nil ,err
 	}

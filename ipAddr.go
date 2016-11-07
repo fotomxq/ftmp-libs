@@ -1,4 +1,5 @@
 //获取IP地址模块
+//该包直接调用函数即可
 package ftmplibs
 
 import (
@@ -7,11 +8,8 @@ import (
 	"net/http"
 )
 
-type IPAddr struct {
-}
-
 //通过网络获取IP地址
-func (ip *IPAddr) GetExternal() string {
+func GetExternal() string {
 	var url string = "http://myexternalip.com/raw"
 	resp, err := http.Get(url)
 	if err != nil {
@@ -30,7 +28,7 @@ func (ip *IPAddr) GetExternal() string {
 }
 
 //获取本机IP地址
-func (ip *IPAddr) GetInternal() string {
+func GetInternal() string {
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
 		return "0.0.0.0"

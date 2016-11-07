@@ -1,4 +1,5 @@
 //文件操作模块
+//该包直接调用函数即可
 package ftmplibs
 
 import (
@@ -8,13 +9,9 @@ import (
 	"crypto/sha1"
 )
 
-//文件类结构
-type FileOperate struct{
-}
-
 //创建新的文件夹
 //支持多级创建
-func (File *FileOperate) CreateDir(src string) (bool,error) {
+func CreateDir(src string) (bool,error) {
 	err := os.MkdirAll(src,os.ModePerm)
 	if err != nil{
 		return false,err
@@ -23,7 +20,7 @@ func (File *FileOperate) CreateDir(src string) (bool,error) {
 }
 
 //创建文件
-func (File *FileOperate) CreateFile(src string) bool{
+func CreateFile(src string) bool{
 	_,err := os.Create(src)
 	if err != nil{
 		return true
@@ -32,7 +29,7 @@ func (File *FileOperate) CreateFile(src string) bool{
 }
 
 //读取文件
-func (File *FileOperate) ReadFile(src string) ([]byte,error){
+func ReadFile(src string) ([]byte,error){
 	fd, fdErr := os.Open(src)
 	if fdErr != nil {
 		return nil,fdErr
@@ -46,7 +43,7 @@ func (File *FileOperate) ReadFile(src string) ([]byte,error){
 }
 
 //写入文件
-func (File *FileOperate) WriteFile(src string, content []byte) (bool,error) {
+func WriteFile(src string, content []byte) (bool,error) {
 	err := ioutil.WriteFile(src, content, os.ModeAppend)
 	if err != nil {
 		return false,err
@@ -55,12 +52,12 @@ func (File *FileOperate) WriteFile(src string, content []byte) (bool,error) {
 }
 
 //追加写入文件
-func (File *FileOperate) WriteFileAppend(src string, content []byte) (bool,error){
-	if File.IsFile(src) == false{
-		writeBool,writeErr := File.WriteFile(src, content)
+func WriteFileAppend(src string, content []byte) (bool,error){
+	if IsFile(src) == false{
+		writeBool,writeErr := WriteFile(src, content)
 		return writeBool,writeErr
 	}
-	fileContent, fcErr := File.ReadFile(src)
+	fileContent, fcErr := ReadFile(src)
 	if fcErr != nil{
 		return false,fcErr
 	}
@@ -70,13 +67,13 @@ func (File *FileOperate) WriteFileAppend(src string, content []byte) (bool,error
 	}
 	sep := []byte("")
 	var newContent []byte = bytes.Join(s,sep)
-	writeBool2,writeErr2 := File.WriteFile(src,newContent)
+	writeBool2,writeErr2 := WriteFile(src,newContent)
 	return writeBool2,writeErr2
 }
 
 //修改文件或文件夹名称
 //可用于修改路径，即剪切
-func (File *FileOperate) EditFileName(src string, newName string) (bool,error) {
+func EditFileName(src string, newName string) (bool,error) {
 	err := os.Rename(src, newName)
 	if err != nil {
 		return true,err
@@ -85,7 +82,7 @@ func (File *FileOperate) EditFileName(src string, newName string) (bool,error) {
 }
 
 //删除文件
-func (File *FileOperate) DeleteFile(src string) bool {
+func DeleteFile(src string) bool {
 	err := os.RemoveAll(src)
 	if err != nil {
 		return true
@@ -94,13 +91,13 @@ func (File *FileOperate) DeleteFile(src string) bool {
 }
 
 //判断路径是否存在
-func (File *FileOperate) IsExist(src string) bool{
+func IsExist(src string) bool{
 	_, err := os.Stat(src)
 	return err == nil || os.IsExist(err)
 }
 
 //判断是否为文件
-func (File *FileOperate) IsFile(src string) bool {
+func IsFile(src string) bool {
 	info, err := os.Stat(src)
 	if err != nil{
 		return false
@@ -109,7 +106,7 @@ func (File *FileOperate) IsFile(src string) bool {
 }
 
 //判断是否为文件夹
-func (File *FileOperate) IsFolder(src string) bool {
+func IsFolder(src string) bool {
 	info, err := os.Stat(src)
 	if err != nil{
 		return false
@@ -118,12 +115,12 @@ func (File *FileOperate) IsFolder(src string) bool {
 }
 
 //获取文件列表
-func (File *FileOperate) GetFileList(src string) string {
+func GetFileList(src string) string {
 	return ""
 }
 
 //获取文件大小
-func (File *FileOperate) GetFileSize(src string) int64 {
+func GetFileSize(src string) int64 {
 	info, err := os.Stat(src)
 	if err != nil{
 		return 0
@@ -132,14 +129,14 @@ func (File *FileOperate) GetFileSize(src string) int64 {
 }
 
 //获取文件信息
-func (File *FileOperate) GetFileInfo(src string) (os.FileInfo ,error) {
+func GetFileInfo(src string) (os.FileInfo ,error) {
 	info, err := os.Stat(src)
 	return info,err
 }
 
 //计算文件sha1值
-func (File *FileOperate) GetFileSha1(src string) (string,error){
-	content,err := File.ReadFile(src)
+func GetFileSha1(src string) (string,error){
+	content,err := ReadFile(src)
 	if err != nil{
 		return "",err
 	}
