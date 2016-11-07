@@ -18,6 +18,8 @@ type Log struct {
 	//日志保存结构
 	// 0 - 年月/日.log ; 1 - 年/月/日.log ; 2 - 年月日.log
 	dirType int
+	//控制台和日志输出错误的前缀
+	errorPrefix string
 }
 
 //设定发送方式
@@ -45,6 +47,11 @@ func (log *Log) SetDirType(t int){
 	log.dirType = t
 }
 
+//设定输出错误的前缀
+func (log *Log) SetErrorPrefix(prefix string){
+	log.errorPrefix = Prefix
+}
+
 //添加新的日志
 func (log *Log) AddLog(content string) {
 	switch log.newLogType {
@@ -64,7 +71,10 @@ func (log *Log) AddLog(content string) {
 //系统级别错误日志
 func (log *Log) AddErrorLog(err error){
 	errMsg := err.Error()
-	log.AddLog(errMsg)
+	if log.errorPrefix == "" {
+		log.errorPrefix = "Error : "
+	}
+	log.AddLog(log.errorPrefix + errMsg)
 }
 
 //向控制台发送日志信息
