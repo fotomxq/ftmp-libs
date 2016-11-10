@@ -61,3 +61,18 @@ func (simpleHttp *SimpleHttp) Post() ([]byte,error){
 	defer resp.Body.Close()
 	return ioutil.ReadAll(resp.Body)
 }
+
+//将URL保存到文件
+func (simpleHttp *SimpleHttp) Save(fileSrc string) (bool,error){
+	//获取URL内容
+	urlC,urlErr := simpleHttp.Get()
+	if urlErr != nil{
+		return nil,urlErr
+	}
+	//将数据写入文件
+	writeFileBool,writeErr := WriteFile(fileSrc,urlC)
+	if writeErr != nil{
+		return nil,writeErr
+	}
+	return writeFileBool,writeErr
+}
