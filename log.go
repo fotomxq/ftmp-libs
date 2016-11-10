@@ -18,8 +18,13 @@ type Log struct {
 	//日志保存结构
 	// 0 - 年月/日.log ; 1 - 年/月/日.log ; 2 - 年月日.log
 	dirType int
+<<<<<<< HEAD
 	//控制台和日志输出错误的前缀
 	errorPrefix string
+=======
+	//file模块调用
+	file FileOperate
+>>>>>>> 2865ccf63334543b43a4ded793e8ed3dd3a456b2
 }
 
 //设定发送方式
@@ -32,7 +37,11 @@ func (log *Log) SetNewLogType(num int) {
 
 //设定存储路径
 func (log *Log) SetDirSrc(src string) {
+<<<<<<< HEAD
 	if IsFile(src) == false {
+=======
+	if log.file.IsFile(src) == false {
+>>>>>>> 2865ccf63334543b43a4ded793e8ed3dd3a456b2
 		log.dirSrc = src
 	}else{
 		log.dirSrc = "log"
@@ -47,11 +56,14 @@ func (log *Log) SetDirType(t int){
 	log.dirType = t
 }
 
+<<<<<<< HEAD
 //设定输出错误的前缀
 func (log *Log) SetErrorPrefix(prefix string){
 	log.errorPrefix = Prefix
 }
 
+=======
+>>>>>>> 2865ccf63334543b43a4ded793e8ed3dd3a456b2
 //添加新的日志
 func (log *Log) AddLog(content string) {
 	switch log.newLogType {
@@ -71,10 +83,14 @@ func (log *Log) AddLog(content string) {
 //系统级别错误日志
 func (log *Log) AddErrorLog(err error){
 	errMsg := err.Error()
+<<<<<<< HEAD
 	if log.errorPrefix == "" {
 		log.errorPrefix = "Error : "
 	}
 	log.AddLog(log.errorPrefix + errMsg)
+=======
+	log.AddLog(errMsg)
+>>>>>>> 2865ccf63334543b43a4ded793e8ed3dd3a456b2
 }
 
 //向控制台发送日志信息
@@ -113,7 +129,11 @@ func (log *Log) postFileLog(content string){
 			break
 
 	}
+<<<<<<< HEAD
 	createDirBool, _ := CreateDir(dir)
+=======
+	createDirBool, _ := log.file.CreateDir(dir)
+>>>>>>> 2865ccf63334543b43a4ded793e8ed3dd3a456b2
 	if createDirBool == false {
 		log.postFmtLog("ERROR : Cannot create log dir.")
 		return
@@ -123,7 +143,11 @@ func (log *Log) postFileLog(content string){
 	var logContent string = nowTime + " " + content + "\n"
 	logContentByte := []byte(logContent)
 	//向日志文件添加日志
+<<<<<<< HEAD
 	_,writeErr := WriteFileAppend(logSrc,logContentByte)
+=======
+	_,writeErr := log.file.WriteFileAppend(logSrc,logContentByte)
+>>>>>>> 2865ccf63334543b43a4ded793e8ed3dd3a456b2
 	if writeErr != nil{
 		fmt.Println(writeErr.Error())
 	}
