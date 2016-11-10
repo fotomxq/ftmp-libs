@@ -49,7 +49,7 @@ func (log *Log) SetDirType(t int){
 
 //设定输出错误的前缀
 func (log *Log) SetErrorPrefix(prefix string){
-	log.errorPrefix = Prefix
+	log.errorPrefix = prefix
 }
 
 //添加新的日志
