@@ -1,0 +1,10 @@
+{{define "footer"}}
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/semantic.min.js"></script>
+{{range .refJS}}
+<script src="/assets/js/{{.}}.js"></script>
+{{end}}
+</body>
+
+</html>
+{{end}}
