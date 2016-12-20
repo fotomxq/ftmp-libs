@@ -216,20 +216,20 @@ func (this *MatchString) FilterMax(postMax string) int {
 //过滤非法字符
 //param str string 要过滤的字符串
 //return string 过滤后的字符串
-func (this *MatchString) FilterStr(str string) string{
+func (this *MatchString) FilterStr(str string) string {
 	var newStr string
 	//newStr = strings.Replace(str,"\r","",-1)
 	//newStr = strings.Replace(newStr,"\n","",-1)
 	//newStr = strings.Replace(newStr,"\t","",-1)
-	newStr = strings.Replace(str,"~","～",-1)
-	newStr = strings.Replace(newStr,"<","〈",-1)
-	newStr = strings.Replace(newStr,">","〉",-1)
-	newStr = strings.Replace(newStr,"$","￥",-1)
-	newStr = strings.Replace(newStr,"!","！",-1)
-	newStr = strings.Replace(newStr,"[","【",-1)
-	newStr = strings.Replace(newStr,"]","】",-1)
-	newStr = strings.Replace(newStr,"{","｛",-1)
-	newStr = strings.Replace(newStr,"}","｝",-1)
+	newStr = strings.Replace(str, "~", "～", -1)
+	newStr = strings.Replace(newStr, "<", "〈", -1)
+	newStr = strings.Replace(newStr, ">", "〉", -1)
+	newStr = strings.Replace(newStr, "$", "￥", -1)
+	newStr = strings.Replace(newStr, "!", "！", -1)
+	newStr = strings.Replace(newStr, "[", "【", -1)
+	newStr = strings.Replace(newStr, "]", "】", -1)
+	newStr = strings.Replace(newStr, "{", "｛", -1)
+	newStr = strings.Replace(newStr, "}", "｝", -1)
 	return newStr
 }
 
@@ -237,17 +237,17 @@ func (this *MatchString) FilterStr(str string) string{
 //param str *string 要过滤的字符串
 //param min int 最短，包括该长度
 //param max int 最长，包括该长度
-//return bool 是否成功
-func (this *MatchString) CheckFilterStr(str *string,min int,max int) bool{
+//return string 过滤后的字符串，失败返回空字符串
+func (this *MatchString) CheckFilterStr(str *string, min int, max int) string {
 	var newStr string
 	newStr = this.FilterStr(str)
-	if newStr == ""{
-		return false
+	if newStr == "" {
+		return ""
 	}
 	var strLen int
 	strLen = len(newStr)
-	if strLen >= min && strLen <= max{
-		return true
+	if strLen >= min && strLen <= max {
+		return newStr
 	}
-	return false
+	return ""
 }
