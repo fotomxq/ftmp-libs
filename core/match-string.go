@@ -232,3 +232,22 @@ func (this *MatchString) FilterStr(str string) string{
 	newStr = strings.Replace(newStr,"}","｝",-1)
 	return newStr
 }
+
+//过滤非法字符后判断其长度是否符合标准
+//param str *string 要过滤的字符串
+//param min int 最短，包括该长度
+//param max int 最长，包括该长度
+//return bool 是否成功
+func (this *MatchString) CheckFilterStr(str *string,min int,max int) bool{
+	var newStr string
+	newStr = this.FilterStr(str)
+	if newStr == ""{
+		return false
+	}
+	var strLen int
+	strLen = len(newStr)
+	if strLen >= min && strLen <= max{
+		return true
+	}
+	return false
+}
