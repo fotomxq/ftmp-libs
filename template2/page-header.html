@@ -1,0 +1,28 @@
+{{define "header"}}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{{.appName}}{{if .addTitle}} - {{.addTitle}}{{end}}</title>
+    <meta name="description" content="">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="icon" href="/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/imgs/logo-32.ico">
+    <link rel="apple-touch-icon" href="/assets/imgs/logo-100.png">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/other/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/other/ionicons.min.css">
+    <link rel="stylesheet" href="/assets/adminlte/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/assets/adminlte/css/skins/skin-blue.min.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/assets/other/html5shiv.min.js"></script>
+    <script src="/assets/other/respond.min.js"></script>
+    <![endif]-->
+    {{range .refCSS}}
+    <link rel="stylesheet" type="text/css" href="/assets/css/{{.}}.css">
+    {{end}}
+</head>
+{{end}}
